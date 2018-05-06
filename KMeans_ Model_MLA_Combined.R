@@ -15,6 +15,7 @@ setwd("C:/Users/vijay.bhaskar/Desktop/MLA LADS/")
 
 dataset <- read.csv('Combined_data_v1.csv')     #This csv is the output of Data Prep Code
 
+dataset$Project <- as.character(dataset$Project)
 
 library(tm)
 
