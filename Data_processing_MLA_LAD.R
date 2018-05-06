@@ -1,5 +1,4 @@
 
-setwd("C:/Users/vijay.bhaskar/Desktop/MLA LADS/")
 
 urls <- c(
   'http://data.opencity.in/Data/Karnataka-MLA-LAD-Funds-AC-150-YELAHANKA-2013-2018.csv'
@@ -57,8 +56,8 @@ colnames(result)[9] <- c("Value_2")
 # Creating one proper column name for Project description and Value 
 # as the original csv files have 2 slightly different column names for them
 
-result$Project[!is.na(result$Project_description_1)] = result$Project_description_1[!is.na(result$Project_description_1)]  # merge with y
-result$Project[!is.na(result$Project_description_2)] = result$Project_description_2[!is.na(result$Project_description_2)]  # merge with z
+result$Project[!is.na(result$Project_description_1)] = result$Project_description_1[!is.na(result$Project_description_1)]  
+result$Project[!is.na(result$Project_description_2)] = result$Project_description_2[!is.na(result$Project_description_2)] 
 
 result$Value_in_Lakhs[!is.na(result$Value_1)] = result$Value_1[!is.na(result$Value_1)]  
 result$Value_in_Lakhs[!is.na(result$Value_2)] = result$Value_2[!is.na(result$Value_2)] 
