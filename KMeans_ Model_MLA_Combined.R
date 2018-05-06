@@ -17,72 +17,7 @@ dataset <- read.csv('Combined_data_v1.csv')
 
 
 library(tm)
-library(quanteda)
 
-library(topicmodels)
-
-colnames(dataset)[5]<- c("item_description")
-
-
-dataset[5] <- as.character(dataset[5])
-
-text_mining = function(sample){
-  cat("\014")
-  sample$item_description = ifelse(grepl('No description yet',sample$item_description , ignore.case = TRUE ,perl = TRUE) , '',sample$item_description)
-  gc()
-  cat("tolower...\n")
-  sample$item_description = tolower(sample$item_description)
-  cat("creating corpus...\n")
-  corpus = Corpus(VectorSource(sample$item_description))
-  cat("stop words...\n")
-  corpus = tm_map(corpus , removeWords , stopwords('english'))
-  cat("punct...\n")
-  corpus = tm_map(corpus , removePunctuation)
-  #cat("tolower...\n")
-  #corpus = tm_map(corpus , tolower) #taking longer time!
-  cat("stem doc...\n")
-  corpus = tm_map(corpus , stemDocument)
-  cat("creating quanteda...\n")
-  
-  corpus1 = quanteda::corpus(corpus)
-  
-  cat("creating dfm matrix...\n")
-  dfm_matrix = quanteda::dfm(quanteda::tokens(corpus1 ) ,
-                             ngrams =2 , tolower = FALSE , stem = FALSE , remove_punct = FALSE)
-  return (dfm_matrix)
-}
-
-
-str(dataset)
-
-dfm <- text_mining(dataset)
-
-dfm
-
-
-MLA_lda <- LDA(dfm, k = 10, control = list(seed = 1234))
-MLA_lda
-
-library(tidytext)
-
-MLA_topics <- tidy(MLA_lda, matrix = "beta")
-MLA_topics
-
-
-unique(MLA_topics$term)
-write.csv(MLA_lda,"test.csv") 
-
-
-
-
-
-#k-MODES
-
-install.packages("klaR")
-
-library(klaR)
-
-kmeasn_output <- kmodes(dataset[5], 10,iter.max = 10, weighted = FALSE, fast = TRUE)
 
 
 
@@ -115,10 +50,9 @@ k <- 10
 kmeansResult <- kmeansruns(mat_norm, k)
 
 
-count(kmeansResult$cluster)
+table(kmeansResult$cluster)
 
 
-output <- cbind(dataset[5],kmeansResult$cluster)
 
 
 write.csv(output,"kmeans_output.csv")
